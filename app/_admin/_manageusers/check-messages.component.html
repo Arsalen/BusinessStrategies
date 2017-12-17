@@ -1,0 +1,88 @@
+<head>
+
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+</style>
+
+</head>
+
+
+<body>
+<br/><br/>
+<div class="container-fluid">
+<div class="collapse navbar-collapse" id="myNavbar">
+<ul class="nav navbar-nav navbar-right">
+  <li><button type="button" class="navbar-button" data-toggle="modal" data-target="#myModal_2"> <span ></span> Contact</button> </li>
+  <li><button class="navbar-button" (click)= "signout()"  ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+</ul>
+</div>
+</div>
+
+<br/><br/><br/><br/><br/>
+<h1>Check Messages</h1>
+
+    <h3>All registered messages:</h3>
+    <ul>
+        <li *ngFor="let msg of messages">
+            <p >{{msg.id}}</p>
+            <p> {{msg.mail}}</p>
+            <p> {{msg.content}}</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_2"> <span ></span> Contact</button>
+            <button class="btn btn-primary" (click) = "to_sender_history(msg)" > <span ></span> Sender History</button>
+            <button class="btn btn-primary" (click) = "delete_msg(msg)" >Delete Message</button>
+        </li>
+    </ul>
+                    <!-- Modal -->
+                    <div id="myModal_2" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                    <!-- Modal content-->
+                        <div class="modal-content">
+      
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Send Message</h4>
+                        </div>
+                        <div class="modal-body">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+
+                        <div class="modal-footer">
+                        <!--<p>Some text in the modal.</p>-->
+                        <my-contact-component></my-contact-component>
+                        </div>
+
+                        </div>
+                        </div>
+                        </div>
+
+<div style="display: flex; justify-content: center;">
+<img align = "center" src="http://www.mediafactory.org.au/stefan-blair/files/2014/10/Fotolia_49311384_M-21gqwzt.jpg" style="width:width;height:height;" height="600" width="400">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>

@@ -1,0 +1,233 @@
+<head>
+
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #3399ff;
+    color: white;
+}
+</style>
+
+</head>
+
+<body>
+
+<br/><br/>
+<div class="container-fluid">
+<div class="collapse navbar-collapse" id="myNavbar">
+<ul class="nav navbar-nav navbar-right">
+        <li><button class="navbar-button" (click)= "signout()" ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+      </ul>
+</div>
+</div>
+
+
+
+<br/><br/><br/><br/><br/>
+<h1>History</h1>
+
+<div style="overflow-x:auto;">
+<table id="customers" >
+<tr>
+
+<th>expression</th>
+<th>Facebook</th>
+<th>Twitter</th>
+<th>Foodly</th>
+<th>FbUrl</th>
+<th>period</th>
+<th>location</th>
+<th>gender</th>
+<th>age</th>
+<th>review</th>
+<th>Positive Tweets</th>
+<th>Negative Tweets</th>
+<th>Neutral Tweets</th>
+<th>Positive Facebook comments</th>
+<th>Negative Facebook comments</th>
+<th>Neutral Facebook comments</th>
+<th>Female Comments</th>
+<th>Male Comments</th>
+<th>Positive forum comments</th>
+<th>Negative forum comments</th>
+</tr>
+
+<tr *ngFor="let search of allsearches" >
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn "> {{search.expression}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.plateform_1}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.plateform_2}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.plateform_3}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.FbUrl}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.period}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.analysis_1}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.analysis_2}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.analysis_3}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.analysis_4}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.tweet_positive}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.tweet_negative}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.tweet_neutre}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.commentaire_positive}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.commentaire_negative}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.commentaire_neutre}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.female_comment}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.male_comment}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.comment_positive}}</td>
+<td *ngIf = "search.client_id == currentUser.id ||  currentUser.admn"> {{search.comment_negative}}</td>
+</tr>
+
+</table>
+</div>
+
+<div style="display: flex; justify-content: center;">
+<img align = "center" src="http://o.b5z.net/i/u/10035243/i/audit.jpg" style="width:width;height:height;" height="300" width="300">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<tr>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+<td>xxx</td>
+</tr>
+<tr>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+<td>yyy</td>
+</tr>
+<tr>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+<td>zzz</td>
+</tr>
+<tr>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+<td>www</td>
+</tr>
+<tr>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+<td>aaa</td>
+</tr>
+</table>
+</div>-->
+
+
+
+
+
+</body>

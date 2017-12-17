@@ -1,0 +1,109 @@
+<head>
+
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #3399ff;
+    color: white;
+}
+</style>
+
+</head>
+
+<body>
+
+
+<br/><br/>
+<div class="container-fluid">
+<div class="collapse navbar-collapse" id="myNavbar">
+<ul  class="nav navbar-nav navbar-right">
+  <li><button type="button" class="navbar-button" data-toggle="modal" data-target="#myModal_2"><span ></span> Contact </button> </li>
+  <li><button class="navbar-button" (click)= "signout()"  ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+  </ul>
+</div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal_2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Us Message</h4>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+     
+      </div>
+      <div class="modal-footer">
+           <!--<p>Some text in the modal.</p>-->
+          <my-contact-component></my-contact-component>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<br/><br/><br/><br/><br/>
+<h1>Preferences</h1>
+<div style="overflow-x:auto;">
+<table id="customers" >
+<tr>
+<th>Id</th>
+<th>Client Id</th>
+<th>Sector</th>
+<th>Url</th>
+</tr>
+
+<tr *ngFor="let preference of preferences" >
+<td > {{preference.id}}</td>
+<td > {{preference.client_id}}</td>
+<td > {{preference.sector}}</td>
+<td > {{preference.url}}</td>
+
+<td> <button class="btn btn-primary" (click) = "delete_notif(preference)" >Delete notification</button> </td>
+</tr>
+</table>
+</div> 
+
+<div style="display: flex; justify-content: center;">
+<img align = "center" src="http://study-aids.co.uk/dissertation-blog/wp-content/uploads/2014/12/Employee-Relations.jpg" style="width:width;height:height;" height="500" width="700">
+</div>
+</body>
+

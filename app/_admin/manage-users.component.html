@@ -1,0 +1,128 @@
+<head>
+
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<br/><br/>
+<div class="container-fluid">
+<div class="collapse navbar-collapse" id="myNavbar">
+<ul class="nav navbar-nav navbar-right">
+  <li><button type="button" class="navbar-button" data-toggle="modal" data-target="#myModal_2"> <span ></span> Contact</button> </li>
+  <li><button [disabled]="loading" class="navbar-button" (click)="users_waiting()"><span ></span> Users Waiting</button> </li>
+  <li><button [disabled]="loading" class="navbar-button" (click)="check_messages()"><span ></span> Check Messages</button> </li>
+  <li><button [disabled]="loading" class="navbar-button" (click)="check_history()"><span ></span> Check History</button> </li>  
+  <li><button class="navbar-button" (click)= "signout()"  ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+</ul>
+</div>
+</div>
+
+
+<br/><br/><br/><br/><br/>
+<h1>Manage Users</h1>
+
+<h3>All registered users:</h3>
+                    
+    <ul>
+        <div *ngFor="let user of allusers" >
+        <li *ngIf = "!user.held">
+
+
+<h2>{{user.firstName}} details!</h2>
+    <form name="form" (ngSubmit)="f.form.valid && editdetails(user)" #f="ngForm" novalidate>
+
+    <div class="form-group">
+    <label for="id">id: </label>{{user.id}}
+    </div>
+    
+    <div class="form-group">
+    <label for="firstName">firstname: </label>
+    <input class="form-control" type="text" name = "firstName" [(ngModel)] = "user.firstName" #firstName = "ngModel" />
+    </div>
+    
+    <div class="form-group">
+    <label for="lastName">lastname: </label>
+    <input class="form-control" type="text" name = "lastName" [(ngModel)] = "user.lastName" #lastName = "ngModel" />
+    </div>
+    
+    <div class="form-group">
+    <label for="email">E-mail: </label>
+    <input class="form-control" type="text" name = "email" [(ngModel)] = "user.email" #email = "ngModel" />
+    </div>
+
+    <div class="form-group">
+    <label for="company">Company: </label>
+    <input class="form-control" type="text" name = "company" [(ngModel)] = "user.company" #company = "ngModel" />
+    </div>
+
+    <div class="form-group">
+    <label for="sector">Sector: </label>
+    <input class="form-control" type="text" name = "sector" [(ngModel)] = "user.sector" #sector = "ngModel" />
+    </div>
+
+    <div class="form-group">
+    <label for="function">Function: </label>
+    <input class="form-control" type="text" name = "function" [(ngModel)] = "user.function" #function = "ngModel" />
+    </div>
+
+        <div class="form-group">
+    <label for="password">password: </label>{{user.password}}
+    </div>
+
+<div class="form-group">
+    <button [disabled]="loading" class="btn btn-primary">Save Changes</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <button [disabled]="loading" class="btn btn-primary" (click)="deleteUser(user)">Delete User</button>
+    <button [disabled]="loading" class="btn btn-primary" (click)="user_history(user.id)">User History</button>
+</div>
+    </form>
+    
+        </li>
+      </div>
+    </ul>
+<div style="display: flex; justify-content: center;">
+<img align = "center" src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAeKAAAAJGM4MDk0MTcwLWJkYjMtNDExOC04MThiLTg2NmNkY2JhYjc1Mw.jpg" style="width:width;height:height;" height="500" width="700">
+</div>
+
+
+<!-- Modal -->
+<div id="myModal_2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Message</h4>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+
+      <div class="modal-footer">
+           <!--<p>Some text in the modal.</p>-->
+          <my-contact-component></my-contact-component>
+      </div>
+
+    </div>
+  </div>
+</div>    
+
+</body>      
+            

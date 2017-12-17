@@ -1,12 +1,40 @@
-﻿<div class="col-md-6 col-md-offset-3">
-    <h1>Hi {{currentUser.firstName}}!</h1>
-    <p>You're logged in with Angular 2!!</p>
-    <h3>All registered users:</h3>
-    <ul>
-        <li *ngFor="let user of users">
-            {{user.username}} ({{user.firstName}} {{user.lastName}})
-            - <a (click)="deleteUser(user.id)">Delete</a>
-        </li>
-    </ul>
-    <p><a [routerLink]="['/login']">Logout</a></p>
+﻿<head>
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+
+</style>
+</head>
+
+<body>
+<div class="col-md-6 col-md-offset-3">
+<br/><br/><br/><br/><br/>
+    <h1>Welcome {{currentUser.firstName}}!</h1>
+    <p>You're logged in Home Page!!</p>
 </div>
+
+<br/><br/>
+<div class="container-fluid">
+<div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><button class="navbar-button" (click) = "to_user_details()" ><span ></span> Profile</button> </li>
+        <li><button [disabled] = "loading"  class="navbar-button" (click) = "signout()" ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+      </ul>
+    </div>
+  </div>
+
+
+
+</body>
+
+

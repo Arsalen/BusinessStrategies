@@ -1,0 +1,210 @@
+<head>
+
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+</style>
+
+</head>
+
+<body>
+<br/><br/>
+<div class="container-fluid">
+<div class="collapse navbar-collapse" id="myNavbar">
+<ul  class="nav navbar-nav navbar-right">
+        <li><button type="button" (click) = 'reset()' class="navbar-button" data-toggle="modal" data-target="#myModal_2"><span ></span> Contact </button> </li>
+        <li><button type="button" (click) = 'reset()' class="navbar-button" data-toggle="modal" data-target="#myModal_6"><span ></span> Delete account </button> </li>
+        <li *ngIf = "!currentUser.admn"><button type="button" (click) = 'reset()' class="navbar-button" data-toggle="modal" data-target="#myModal_3"><span ></span> search </button> </li>
+        <li *ngIf = "!currentUser.admn"><button type="button" (click) = 'reset()' class="navbar-button" data-toggle="modal" data-target="#myModal_4"><span ></span> preference </button> </li>
+        <li *ngIf = "!currentUser.admn"><button class="navbar-button" (click)= "to_history()"  ><span ></span> History </button> </li>
+        <li *ngIf = "currentUser.admn"><button class="navbar-button" (click)= "to_manageusers()" ><span ></span> Manage Users </button> </li>
+        <li *ngIf = "currentUser.admn"><button type="button" (click) = 'reset()' class="navbar-button" data-toggle="modal" data-target="#myModal_5"><span ></span><span ></span> Manage Search </button> </li>
+        <li *ngIf = "currentUser.admn"><button class="navbar-button" (click)= "to_notifications()" ><span ></span> Notifications </button> </li>
+        <li><button type="button" (click) = 'reset()' class="navbar-button" data-toggle="modal" data-target="#myModal_1"><span ></span> Edit </button> </li>
+        <li><button class="navbar-button" (click)= "signout()"  ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+      </ul>
+</div>
+</div>
+
+
+<div >
+  <br/><br/><br/><br/><br/>
+<h1> Hi {{currentUser.firstName}} !</h1>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal_1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     Modal content
+    <div class="modal-content">      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit</h4>
+      </div>
+      <div class="modal-body">
+      <button style="display:inline;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <h4 style="display:inline;" *ngIf="!errormessage && !successmessage" class="modal-title"> 
+          &emsp;&emsp; 
+          Edit Profile
+          </h4>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="errormessage"  class="alert alert-danger" > {{errormessage.type}}</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="successmessage"  class="alert alert-success" >{{successmessage.type}}</div>
+        </div>
+      <div class="modal-footer">
+          <my-edit-component></my-edit-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal_2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Contact</h4>
+      </div>
+      <div class="modal-body">
+      <button style="display:inline;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <h4 style="display:inline;" *ngIf="!errormessage && !successmessage" class="modal-title"> 
+          &emsp;&emsp; 
+          Contact Administration
+          </h4>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="errormessage"  class="alert alert-danger" > {{errormessage.type}}</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="successmessage"  class="alert alert-success" >{{successmessage.type}}</div> </div>
+      <div class="modal-footer">
+          <my-contact-component></my-contact-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal_3" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Search</h4>
+      </div>
+      <div class="modal-body">
+        <button style="display:inline;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <h4 style="display:inline;" *ngIf="!errormessage && !successmessage" class="modal-title"> 
+          &emsp;&emsp; 
+          Submit search</h4>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="errormessage"  class="alert alert-danger" > {{errormessage.type}}</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="successmessage"  class="alert alert-success" >{{successmessage.type}}</div>
+      </div>
+      <div class="modal-footer">
+          <my-search-modal-component></my-search-modal-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="myModal_4" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Suggestions</h4>
+      </div>
+      <div class="modal-body">
+      <button style="display:inline;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <h4 style="display:inline;" *ngIf="!errormessage && !successmessage" class="modal-title"> 
+          &emsp;&emsp; 
+          Suggest Forum</h4>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="errormessage"  class="alert alert-danger" > {{errormessage.type}}</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="successmessage"  class="alert alert-success" >{{successmessage.type}}</div> </div>
+      <div class="modal-footer">
+          <my-preference-modal-component></my-preference-modal-component>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="myModal_5" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Manage Search</h4>
+      </div>
+      <div class="modal-body">
+        <button style="display:inline;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <h4 style="display:inline;" *ngIf="!errormessage && !successmessage" class="modal-title"> 
+          &emsp;&emsp; 
+          Fix Search Criteria</h4>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="errormessage"  class="alert alert-danger" > {{errormessage.type}}</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="successmessage"  class="alert alert-success" >{{successmessage.type}}</div>
+      </div>
+      <div class="modal-footer">
+          <my-search-modal2-component></my-search-modal2-component>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="myModal_6" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+        <button style="display:inline;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <h4 style="display:inline;" *ngIf="!errormessage && !successmessage" class="modal-title"> 
+          &emsp;&emsp; 
+          Quit Business Strategy</h4>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="errormessage"  class="alert alert-danger" > {{errormessage.type}}</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div style="display:inline;" *ngIf="successmessage"  class="alert alert-success" >{{successmessage.type}}</div>
+        </div>
+      <div class="modal-footer">
+          <my-delete-modal-component></my-delete-modal-component>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div style="display: flex; justify-content: center;">
+<img align = "center" src="http://www.mounier-logiciels.fr/images/espace-client.png" style="width:width;height:height;" height="600" width="400">
+</div>
+
+
+
+</body>

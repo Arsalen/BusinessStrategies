@@ -1,0 +1,164 @@
+<head>
+<style>
+
+ table {
+    border-collapse: separate;
+    border-spacing: 30px 50px;
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+<div class="col-md-6 col-md-offset-3">
+    <div *ngIf = "model">
+    <form name="form" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+        <div class="form-group">
+            <label for="expression">expression: </label>
+            <input class="form-control" type="text" name = "expression" [(ngModel)] = "model.expression" #expression = "ngModel"/>
+        </div>
+
+        <div class="form-group">
+            <label for="plateform">plateform: </label>
+            <select multiple class="form-control" name = "plateform" >
+                  <option *ngFor="let c of plateforms" [ngValue]="c.name" (click) = "check(c)" >{{c.name}}</option>
+            </select>
+        </div>
+
+        <div *ngIf = "selectedfb">
+            <div class="form-group">
+                <label for="FbUrl">Facebook Url: </label>
+                <input class="form-control" type="text" name = "FbUrl" [(ngModel)] = "model.FbUrl" #FbUrl = "ngModel"/>
+            </div>
+        </div>
+
+<div class="form-group">
+<table>
+    <tr>
+        <th>
+            <label for="period">period: </label>
+        </th>
+        <th>
+        </th>
+    </tr>
+   <tr>
+       <td><label for="long">Long: </label></td>
+       <td>         
+           <input class="form-control" type="radio" [(ngModel)] = "model.period" #period = "ngModel" name="period" value="lg" /> 
+        </td>
+    </tr>
+    <tr>
+        <td><label for="meduim">meduim: </label></td>
+        <td>        
+            <input class="form-control" type="radio" [(ngModel)] = "model.period" #period = "ngModel" name="period" value="md" checked/> 
+        </td>
+    </tr>
+      <tr>
+          <td><label for="short">short: </label></td>
+          <td>      
+              <input class="form-control" type="radio" [(ngModel)] = "model.period" #period = "ngModel" name="period" value="sh"/>
+            </td>
+        </tr>
+</table>        
+</div>
+
+    <div class="form-group">
+        <table>
+            <tr>
+                <th>
+                    <label for="analysis">analysis: </label>
+                </th>
+            <th></th>
+            </tr>
+            <tr>
+                <td><label for="location">location: </label></td>
+                <td>            
+                    <input class="form-control" type="checkbox" [(ngModel)] = "model.location" #location = "ngModel" name="analysis" value="lc" /> 
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="gender">gender: </label></td>
+                <td>            
+                    <input class="form-control" type="checkbox" [(ngModel)] = "model.gender" #gender = "ngModel" name="analysis" value="gd" /> 
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="age">age: </label></td>
+                <td>            
+                    <input class="form-control" type="checkbox" [(ngModel)] = "model.age" #age = "ngModel" name="analysis" value="ag" /> 
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="review">review: </label></td>
+                <td>            
+                    <input class="form-control" type="checkbox" [(ngModel)] = "model.review" #review = "ngModel" name="analysis" value="rv" /> 
+                </td>
+            </tr>
+</table>        
+</div>
+
+        <!---->
+<!--data-dismiss = "modal"-->
+        <div class="form-group">
+            <button type="submit" (click) = "t()"  [disabled]="loading" class="btn btn-primary">Submit</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <a href="http://localhost:3002/">See results</a>
+        </div>
+
+    </form>
+  </div>
+</div>
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="col-md-6 col-md-offset-3">
+<div *ngIf = "model">
+    <h2> Start Seach!</h2>
+    <form name="form" (ngSubmit)="f.form.valid && search()" #f="ngForm" novalidate>
+
+    <div class="form-group"><label for="expression">Expression: </label>
+    <input class="form-control" type="text" name = "expression" [(ngModel)] = "model.expression" #expression = "ngModel" required/></div>
+    
+    <div class="form-group"><label for="plateform">Plateform: </label>
+    <SELECT class="form-control" name="plateform" [(ngModel)] = "model.plateform" #plateform = "ngModel" size="1">
+        <OPTION>Facebook
+        <OPTION>Twitter
+        <OPTION>Forum
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !expression.valid }">
+    <div *ngIf="f.submitted && !expression.valid" class="help-block">Expression is required</div>
+    </div>
+
+<div class="form-group">
+    <button [disabled]="loading" class="btn btn-primary">Search</button>
+    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+    </form>
+  
+  </div>
+</div>-->

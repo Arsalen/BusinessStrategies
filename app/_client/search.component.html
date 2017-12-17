@@ -1,0 +1,86 @@
+<head>
+
+<style>
+#header
+{
+width: 100% ;
+background: url(http://www.planwallpaper.com/static/images/xperia_z_ultra-wallpaper-1366x768.jpg)
+no-repeat fixed ;
+background-size: 100%;
+color: white;
+margin-top: -60px;
+margin-left: -60px;
+margin-bottom: -60px;
+margin-right: -60px;
+}
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Business Strategy</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <!--<li class="active"><a href="#">Home</a></li>-->
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Support</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><button class="btn btn-primary" (click)= "tohome()"  ><span></span> Home</button> </li>
+        <li><button class="btn btn-primary" (click)= "tohistory()"  ><span></span> History</button> </li>
+        <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_1"><span></span> Search</button> </li>
+        <li><button class="btn btn-info btn-lg" (click)= "signout()" ><span class="glyphicon glyphicon-log-in"></span> Sign Out</button> </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_1">-->
+<!--<button class="btn btn-primary" (click)= "tohome()"  > Home </button>-->
+<!--<button class="btn btn-primary" (click)= "tohistory()"  > History </button>-->
+<!--<button class="btn btn-info btn-lg" (click)= "signout()"  > SignOut </button>-->
+
+
+<br/><br/><br/><br/><br/>
+<h1>Search</h1>
+<!--<button class="btn btn-primary" (click)= "tohome()"  > Home </button>-->
+
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_1">Search</button>-->
+<!-- Modal -->
+<div id="myModal_1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Search</h4>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<p>Some text in the modal.</p>-->
+      </div>
+      <div class="modal-footer">
+          <my-search-modal-component></my-search-modal-component>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!--<button class="btn btn-primary" (click)= "tohistory()"  > History </button>-->
+<!--<button class="btn btn-info btn-lg" (click)= "signout()"  > SignOut </button>-->
+
+
+</body>

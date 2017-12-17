@@ -1,0 +1,474 @@
+json_data = simplejson.loads(request.body)
+        expression = json_data["expression"]
+        period = json_data["period"]
+        FbUrl = json_data["FbUrl"]
+        plateform1 = json_data["plateform_1"]
+        plateform2 = json_data["plateform_2"]
+        plateform3 = json_data["plateform_3"]
+        client_id = json_data["client_id"]
+        analysis_1 = json_data["analysis_1"]
+        analysis_2 = json_data["analysis_2"]
+        analysis_3 = json_data["analysis_3"]
+        analysis_4 = json_data["analysis_4"]
+
+        import mechanicalsoup
+
+        browser = mechanicalsoup.Browser()
+
+        URL = 'https://findmyfbid.com/'
+        login_page = browser.get(URL)
+        login_form = login_page.soup.find('form', {'target': '_top'})
+        login_form.find('input', {'name': 'url'})['value'] = FbUrl
+        response = browser.submit(login_form, login_page.url)
+        x = response.content.decode("utf-8")
+        page_id = x[6:].split('}')[0]
+
+        import twitter
+        from string import punctuation
+        import re
+
+        CONSUMER_KEY = 'oEM0SOcDsIovdbhaNJyRE1mpa'
+        CONSUMER_SECRET = 'HhQVm8n3lPr8bxAcEjbN0kTYCEWxO6XVYeIEXOK28N6x2I5Cfc'
+        OAUTH_TOKEN = '826193854202212352-F7LoMDj9OybGM2690XGaCXmKOHbC6gv'
+        OAUTH_TOKEN_SECRET = '61vWGmgMKICspi4uXHVHrpddm8iBhOJggwGUTSIYKQsDW'
+        auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
+        twitter_api = twitter.Twitter(auth=auth)
+
+        # count= input ('donner le nombre de tweets à examiner')
+
+
+        if period == 'lg':
+            count = 100
+        if period == 'md':
+            count = 50
+        if period == 'sh':
+            count = 20
+        q = expression
+
+        search_results = twitter_api.search.tweets(q=q, count=count)
+        statuses = search_results['statuses']
+
+        country = [tweet['place']['country'] if tweet['place'] != None else None
+                   for tweet in statuses]
+
+        # statuts
+        status_texts = [status['text']
+                        for status in statuses]
+
+        pos_sent = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/positive.txt").read()
+        positive_words = pos_sent.split('\n')
+
+        neg_sent = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/negative.txt").read()
+        negative_words = neg_sent.split('\n')
+        #print(positive_words)
+        tweet_negative = 0
+        tweet_positive = 0
+        tweet_neutre = 0
+        for text in status_texts:
+            text = text.lower()
+            for p in list(punctuation):
+                text = text.replace(p, '')
+            words = text.split()
+            positive_counter = 0
+            negative_counter = 0
+
+            for word in words:
+                if word in positive_words:
+                    positive_counter += 1
+
+                if word in negative_words:
+                    negative_counter -= 1
+            if (positive_counter + negative_counter) > 0:
+                tweet_positive += 1
+            if (positive_counter + negative_counter) < 0:
+                tweet_negative += 1
+            if (positive_counter + negative_counter) == 0:
+                tweet_neutre += 1
+
+        #print(tweet_neutre)
+        # prenoms
+        name = [status['user']['name']
+                for status in statuses]
+        name1 = []
+        for names in name:
+            for p in list(punctuation):
+                names = names.replace(p, '')
+            names = names.lower()
+            found = re.search('(.+?)\s', names)
+            if found:
+                name1.append(found.group(1))
+            else:
+                name1.append(names)
+
+        prenoms = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/Prenoms.txt").read()
+        liste_prenoms = prenoms.split()
+
+        female_tweet = 0
+        male_tweet = 0
+        en = 0
+        ar = 0
+        sp = 0
+        fr = 0
+        ru = 0
+        du = 0
+        ind = 0
+        sc = 0
+        pr = 0
+
+        for names in name1:
+            for prenom in liste_prenoms:
+                if prenom == names:
+                    i = liste_prenoms.index(names)
+                    if liste_prenoms[i + 1] == 'f': female_tweet += 1
+                    if liste_prenoms[i + 1] == 'm': male_tweet += 1
+                    if liste_prenoms[i + 2] == 'english': en += 1
+                    if liste_prenoms[i + 2] == 'arabic': ar += 1
+                    if liste_prenoms[i + 2] == 'spanish': sp += 1
+                    if liste_prenoms[i + 2] == 'frensh': fr += 1
+                    if liste_prenoms[i + 2] == 'russian': ru += 1
+                    if liste_prenoms[i + 2] == 'dutch': du += 1
+                    if liste_prenoms[i + 2] == 'indian': ind += 1
+                    if liste_prenoms[i + 2] == 'scottish': sc += 1
+                    if liste_prenoms[i + 2] == 'portuguese': pr += 1
+
+        origine = {'Anglais': en, 'Arabe': ar, 'Espagnol': sp, 'Français': fr, 'Russe': ru, 'Allemand': du,
+                   'Indien': ind,
+                   'scotlondais': sc, 'potugais': pr}
+        sorted(origine, reverse=True)
+
+        created_at = [status['created_at']
+                      for status in statuses]
+
+        created = []
+        for date in created_at:
+            found = re.search('(.+?):', date)
+
+            if found:
+                created.append(found.group(1))
+            else:
+                created.append(date)
+
+        a = {}
+        i = 0
+        while i < len(created):
+
+            c = created[i]
+            if c in a:
+                created.remove(c)
+            else:
+                a[c] = created.count(c)
+                created.remove(c)
+
+        import urllib
+        import json
+        import time
+        import datetime
+        from string import punctuation
+        import re
+
+        if period == 'lg':
+            nbr = 10
+        if period == 'md':
+            nbr = 5
+        if period == 'sh':
+            nbr = 2
+
+        App_id = '118909881984947'
+        App_secret = '154e61d5544fa2ec965e406c7888793d'
+        access_token = App_id + "|" + App_secret
+
+        # nbr = int(input("nombre de publications"))
+
+
+        def request_until_succeed(url):
+            success = False
+            while success is False:
+                try:
+                    response = urllib.urlopen(url)
+                    if response.getcode() == 200:
+                        success = True
+                except Exception as e:
+                    print(e)
+                    time.sleep(5)
+                    print("Error for URL %s: %s" % (url, datetime.datetime.now()))
+            return (response.read())
+
+        def getFacebookPageFeedData(page_id, access_token):
+            base = "https://graph.facebook.com"
+            node = "/" + page_id + "/feed"
+
+            parameters = "/?fields=message,link,created_time,type,name,id,likes.summary(true),comments.summary(true),shares&access_token=%s" % (
+                access_token)
+            url = base + node + parameters
+            data = json.loads(urllib.urlopen(url).read())
+            return data
+
+        # page_id= input('donner l id de la page facebook : ')
+        # page_id = '1515871602074952'
+        don1 = getFacebookPageFeedData(page_id, access_token)
+
+        # don2 = json.loads(request_until_succeed(don1['paging']['next']))
+        # don3 = json.loads(request_until_succeed(don2['paging']['next']))
+
+
+        # print(don2['data'][0])
+        # print(don3['data'][0])
+
+        # page1_post1 = don2['data'][0]
+        # page1_post2 = don2['data'][1]
+        # print(page1_like = don1['total_count'])
+
+
+        female_comment = 0
+        male_comment = 0
+        en = 0
+        ar = 0
+        sp = 0
+        fr = 0
+        ru = 0
+        du = 0
+        ind = 0
+        sc = 0
+        pr = 0
+        total_likes = 0
+        commentaire_negative = 0
+        commentaire_positive = 0
+        commentaire_neutre = 0
+        total_comments = 0
+        j = 0
+        while j < nbr:
+            post = don1['data'][j]
+
+            # likes
+
+            total_likes += ((post['likes'])['summary'])['total_count']
+            names = []
+            for like in post['likes']['data']:
+                names.append((like['name']))
+            name1 = []
+            for name in names:
+                #
+                for p in list(punctuation):
+                    name = name.replace(p, '')
+                name = name.lower()
+                found = re.search('(.+?)\s', name)
+                if found:
+                    name1.append(found.group(1))
+                else:
+                    name1.append(name)
+
+            prenoms = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/Prenoms.txt").read()
+            liste_prenoms = prenoms.split()
+
+            for name in name1:
+                for prenom in liste_prenoms:
+                    if prenom == name:
+                        i = liste_prenoms.index(name)
+
+                        if liste_prenoms[i + 1] == 'f': female_comment += 1
+                        if liste_prenoms[i + 1] == 'm': male_comment += 1
+                        if liste_prenoms[i + 2] == 'english': en += 1
+                        if liste_prenoms[i + 2] == 'arabic': ar += 1
+                        if liste_prenoms[i + 2] == 'spanish': sp += 1
+                        if liste_prenoms[i + 2] == 'frensh': fr += 1
+                        if liste_prenoms[i + 2] == 'russian': ru += 1
+                        if liste_prenoms[i + 2] == 'dutch': du += 1
+                        if liste_prenoms[i + 2] == 'indian': ind += 1
+                        if liste_prenoms[i + 2] == 'scottish': sc += 1
+                        if liste_prenoms[i + 2] == 'portuguese': pr += 1
+
+            # comments
+
+            created_at = []
+            for comment in post['comments']['data']:
+                created_at.append((comment['created_time']))
+
+            created = []
+            for date in created_at:
+                found = re.search('(.+?):', date)
+                if found:
+                    created.append(found.group(1))
+                else:
+                    created.append(date)
+
+            b = {}
+            i = 0
+            while i < len(created):
+
+                c = created[i]
+                if c in b:
+                    created.remove(c)
+                else:
+                    b[c] = created.count(c)
+                    created.remove(c)
+
+
+                pos_sent = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/positive.txt").read()
+                positive_words = pos_sent.split('\n')
+
+                neg_sent = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/negative.txt").read()
+                negative_words = neg_sent.split('\n')
+
+                comments = []
+                for comment in post['comments']['data']:
+                    comments.append(comment['message'])
+
+                for text in comments:
+                    text = text.lower()
+                for p in list(punctuation):
+                    text = text.replace(p, '')
+                words = text.split()
+                positive_counter = 0
+                negative_counter = 0
+                for word in words:
+                    if word in positive_words:
+                        positive_counter += 1
+                    if word in negative_words:
+                        negative_counter -= 1
+                if (positive_counter + negative_counter) > 0:
+                    commentaire_positive += 1
+                if (positive_counter + negative_counter) < 0:
+                    commentaire_negative += 1
+                if (positive_counter + negative_counter) == 0:
+                    commentaire_neutre += 1
+
+            j += 1
+        origine = {'Anglais': en, 'Arabe': ar, 'Espagnol': sp, 'Français': fr, 'Russe': ru, 'Allemand': du,
+                   'Indien': ind, 'scotlondais': sc, 'potugais': pr}
+
+        import requests
+        from bs4 import BeautifulSoup
+        from string import punctuation
+        import re
+
+        mot_cle = expression
+        url = 'http://foodly.fr/?s=' + mot_cle
+        src_code = requests.get(url).text
+        soup = BeautifulSoup(src_code, "lxml")
+        linklist = []
+        titlelist = []
+        for link in soup.findAll('a'):
+            if link.get("title") != None and link.get("title") != 'Facebook' and link.get("title") != 'Twitter':
+                linklist.append(link.get("href"))
+                titlelist.append(link.get("title"))
+
+        titlelist1 = []
+        linklist1 = []
+
+        for elt in linklist:
+            try:
+                ind = linklist1.index(elt)
+            except:
+                linklist1.append(elt)
+
+        for elt in titlelist:
+            try:
+                ind = titlelist1.index(elt)
+            except:
+                titlelist1.append(elt)
+
+        i = 0
+        name = []
+        comment = []
+        for link in linklist1:
+
+            src_code = requests.get(link).text
+            soup = BeautifulSoup(src_code, "lxml")
+            for pp in soup.findAll(name='span', attrs={"rel": u"author"}):
+                name.append(pp.string)
+                for x in pp.find_next_siblings(name='p'):
+                    if str(x.string) != "Reply" and str(x.string) != "None":
+                        comment.append(str(x.string))
+            i += 1
+
+        pos_sent = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/positive.txt").read()
+        positive_words = pos_sent.split('\n')
+
+        neg_sent = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/negative.txt").read()
+        negative_words = neg_sent.split('\n')
+        comment_positive = 0
+        comment_negative = 0
+        comment_neutre = 0
+        for text in comment:
+
+            text = text.lower()
+            for p in list(punctuation):
+                text = text.replace(p, '')
+            words = text.split()
+            positive_counter = 0
+            negative_counter = 0
+            for word in words:
+
+                if word in positive_words:
+                    positive_counter += 1
+                if word in negative_words:
+                    negative_counter -= 1
+            if (positive_counter + negative_counter) > 0:
+                comment_positive += 1
+            if (positive_counter + negative_counter) < 0:
+                comment_negative += 1
+            if (positive_counter + negative_counter) == 0:
+                comment_neutre += 1
+        test = []
+        for names in name:
+            names = names.replace('\n\t\t\t ', '').replace('\t\t\t', '')
+            test.append(names)
+        name1 = []
+        for names in test:
+            for p in list(punctuation):
+                names = names.replace(p, '')
+            names = names.lower()
+            found = re.search('(.+?)\s', names)
+            if found:
+                name1.append(found.group(1))
+            else:
+                name1.append(names)
+
+        prenoms = open("/root/pcd_project/kkkproject/Project/django-ng/django_ng_project/django_ng_app/Prenoms.txt").read()
+        liste_prenoms = prenoms.split()
+
+        fe = 0
+        ma = 0
+        en = 0
+        ar = 0
+        sp = 0
+        fr = 0
+        ru = 0
+        du = 0
+        ind = 0
+        sc = 0
+        pr = 0
+
+        for names in name1:
+            for prenom in liste_prenoms:
+                if prenom == names:
+                    i = liste_prenoms.index(names)
+                    if liste_prenoms[i + 1] == 'f': fe += 1
+                    if liste_prenoms[i + 1] == 'm': ma += 1
+                    if liste_prenoms[i + 2] == 'english': en += 1
+                    if liste_prenoms[i + 2] == 'arabic': ar += 1
+                    if liste_prenoms[i + 2] == 'spanish': sp += 1
+                    if liste_prenoms[i + 2] == 'frensh': fr += 1
+                    if liste_prenoms[i + 2] == 'russian': ru += 1
+                    if liste_prenoms[i + 2] == 'dutch': du += 1
+                    if liste_prenoms[i + 2] == 'indian': ind += 1
+                    if liste_prenoms[i + 2] == 'scottish': sc += 1
+                    if liste_prenoms[i + 2] == 'portuguese': pr += 1
+
+        origine = {'Anglais': en, 'Arabe': ar, 'Espagnol': sp, 'Français': fr, 'Russe': ru, 'Allemand': du,
+                   'Indien': ind, 'scotlondais': sc, 'potugais': pr}
+
+        nbr_art = len(linklist1)
+
+        mahmoud = {'client_id': client_id, 'expression': expression, 'plateform_1': plateform1,
+                   'plateform_2': plateform2,
+                   'plateform_3': plateform3, 'FbUrl': FbUrl, 'period': period, 'analysis_1': analysis_1,
+                   'analysis_2': analysis_2, 'analysis_3': analysis_3, 'analysis_4': analysis_4,
+                   'tweet_positive': tweet_positive, 'tweet_negative': tweet_negative, 'tweet_neutre': tweet_neutre,
+                   'female_tweet': female_tweet, 'male_tweet': male_tweet,
+                   'commentaire_positive': commentaire_positive,
+                   'commentaire_negative': commentaire_negative, 'commentaire_neutre': commentaire_neutre,
+                   'female_comment': female_comment, 'male_comment': male_comment,
+                   'comment_positive': comment_positive,
+                   'comment_negative': comment_negative}
+        #print(mahmoud)
